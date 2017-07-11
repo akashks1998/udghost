@@ -1,7 +1,6 @@
 <?php
 session_start();
 	require 'dbconfig/config.php';
-	$conformation=0;
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +10,6 @@ session_start();
 </head>
 <body style="background-color:#bdc3c7">
 		<div id="main-wrapper">
-			<?php if($conformation==0): ?>
 		<center>
 			<h2>Registration Form</h2>
 			<img id="uploadPreview" src="imgs/avatar.png" class="avatar"/><br>
@@ -54,7 +52,13 @@ session_start();
 						echo "User already exists.. try another username";
 					}
 					else{
-						$conformation=1;
+						$_SESSION['username']= $username;
+						$_SESSION['password']= $password;
+						$_SESSION['email']= $email;
+						$_SESSION['college']= $college;
+						$_SESSION['state']= $state;
+						$_SESSION['mobile']= $mobile;
+						header('location:configure.php');
 					}
 				}
 				else{
@@ -62,40 +66,6 @@ session_start();
 				}
 			}
 		?>
-		<?php endif; ?>
-		<?php if($conformation==1):?>
-			<?php
-				$key=rand();
-				mail($email,'Conformation key udghosh',$key,"");
-			?>
-			<center>
-				<h2>Conformation key</h2>
-				<h3>Conformation key has been sent to your email</h3>
-				<img id="uploadPreview" src="imgs/avatar.png" class="avatar"/><br>
-			</center>
-			<form class="myform" action="register.php"method="post" >
-				Key<br>
-				<input name="key" type="text" class="inputvalues" placeholder="Type conformation key" required/><br>
-				<input name="key_submit_btn" type="submit" id="signup_btn" value="Sign Up"/><br>
-			</form>
-			<?php
-				if(isset($_POST['key_submit_btn'])){
-					if($key==(int)$_POST['key']){
-						$query= "insert into fileuploadtable values('$username','$password','$fullname','$email','$state','$college','$mobile','')";
-						$query_run = mysqli_query($con,$query);
-						if($query_run){
-							$_SESSION['username']= $username;
-							header('location:homepage.php');
-						}
-						else{
-							echo "Error";
-						}
-					}else{
-						echo "Wrong key";
-					}
-				}
-			?>
-		<?php endif; ?>
 	</div>
 </body>
 </html>
