@@ -13,7 +13,7 @@
   <?php
     $key=rand();
     echo $_SESSION['email'];
-    mail($_SESSION['email'],'Conformation key udghosh',$key,"");
+    mail($_SESSION['email'],'Conformation key udghosh',$key,"From:Udghosh'17<info@udghosh.org>");
   ?>
   <center>
     <h2>Conformation key</h2>
